@@ -11,14 +11,14 @@ struct Motor {
 };
 
 void andar(struct Motor motor, int direcao, int high) {
-  high = HIGH;
-  digitalWrite(motor.A1, !direcao ? high : LOW);
-  digitalWrite(motor.A2, direcao ? high : LOW);
+  //high = HIGH;
+  analogWrite(motor.A1, direcao*high);
+  analogWrite(motor.A2, !direcao*high);
 }
 
 // Remapeia e força os valores dentro do intervalo
 #define REMAP(in, x, y, a, b) constrain(map(in, x, y, a, b), a, b)
-#define BOOL2DIGITAL(x) x ? HIGH : LOW
+#define BOOL2DIGITAL(x) x ? 255 : 0
 
 Ultrasonic ufrente(8, 9); // Trigger e então echo
 Ultrasonic utras(10, 11);
@@ -50,18 +50,15 @@ void update_states() {
 }
 
 int decidir_lado() { // Medida tomada para o carrinho não viciar para lado nenhum, pois se o if passar o else não chega a ser executado
-  int is_frente = 0;
   if (perto_frente) {
     andar(mdireito, TRAS, 255);
     andar(mesquerdo, TRAS, 255);
-    is_frente = 1;
   }
   if (perto_tras) {
     andar(mdireito, FRENTE, 255);
     andar(mesquerdo, FRENTE, 255);
-    is_frente = 2;
   }
-  return is_frente;
+  return perto_frente || perto_tras;
 }
 
 void loop() {
