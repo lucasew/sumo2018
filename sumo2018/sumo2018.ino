@@ -12,6 +12,8 @@ struct Motor {
 
 void andar(struct Motor motor, int direcao, int high) {
   //high = HIGH;
+  // preto: não sim
+  // vermelho: sim não
   analogWrite(motor.A1, direcao*high);
   analogWrite(motor.A2, !direcao*high);
 }
