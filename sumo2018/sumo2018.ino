@@ -11,11 +11,11 @@ struct Motor {
 };
 
 void andar(struct Motor motor, int direcao, int high) {
-  //high = HIGH;
-  // preto: não sim
-  // vermelho: sim não
-  analogWrite(motor.A1, direcao*high);
-  analogWrite(motor.A2, !direcao*high);
+  // high = HIGH;
+  //  preto: não sim
+  //  vermelho: sim não
+  analogWrite(motor.A1, direcao * high);
+  analogWrite(motor.A2, !direcao * high);
 }
 
 // Remapeia e força os valores dentro do intervalo
@@ -40,18 +40,20 @@ int perto_tras = 0;
 int lado = 0;
 
 void update_states() {
-  US_frente = ufrente.Timing(); // Pega o delay de bater e voltar
+  US_frente = ufrente.read(); // Pega o delay de bater e voltar
   Serial.print("Frente: ");
   Serial.print(US_frente);
-  US_tras = utras.Timing();
+  US_tras = utras.read();
   Serial.print(" Trás: ");
-  Serial.println(US_tras); 
-  perto_frente = US_frente < 1500;
-  perto_tras = US_tras < 1500;
-  lado = millis()%2; // Escravizar como gerador de entropia :v
+  Serial.println(US_tras);
+  perto_frente = US_frente < 27;
+  perto_tras = US_tras < 27;
+  lado = millis() % 2; // Escravizar como gerador de entropia :v
 }
 
-int decidir_lado() { // Medida tomada para o carrinho não viciar para lado nenhum, pois se o if passar o else não chega a ser executado
+int decidir_lado() { // Medida tomada para o carrinho não viciar para lado
+                     // nenhum, pois se o if passar o else não chega a ser
+                     // executado
   if (perto_frente) {
     andar(mdireito, TRAS, 255);
     andar(mesquerdo, TRAS, 255);
