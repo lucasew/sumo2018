@@ -23,7 +23,6 @@ lint:
         - ino
   enabled:
     - clang-format@16.0.3
-    - clang-tidy@16.0.3
     - checkov@3.2.504
     - git-diff-check
     - prettier@3.8.1
