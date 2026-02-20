@@ -1,0 +1,21 @@
+[tools]
+trunk = "1.3.4"
+arduino-cli = "1.4.1"
+
+[tasks.lint]
+run = "trunk check"
+
+[tasks.fmt]
+run = "trunk fmt"
+
+[tasks.install]
+run = "mise install && arduino-cli core update-index && arduino-cli core install arduino:avr && arduino-cli lib install Ultrasonic@3.0.0"
+
+[tasks.test]
+run = "mkdir -p build && arduino-cli compile --fqbn arduino:avr:uno --output-dir build/ sumo2018/sumo2018.ino"
+
+[tasks.codegen]
+run = "echo 'No codegen'"
+
+[tasks.ci]
+depends = ["lint", "test"]
